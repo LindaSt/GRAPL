@@ -1,6 +1,5 @@
 import os
 import xml.etree.ElementTree as ET
-import numpy as np
 import sys
 
 
@@ -9,7 +8,7 @@ class InvalidFileException(Exception):
 
 
 class ParsedGxlGraph:
-    def __init__(self, path_to_gxl) -> object:
+    def __init__(self, path_to_gxl, color_by_feature=None) -> object:
         """
         This class contains all the information encoded in a single gxl file = one graph
         Parameters
@@ -19,6 +18,10 @@ class ParsedGxlGraph:
         """
         self.filepath = path_to_gxl
         self.filename = os.path.basename(self.filepath)
+        # this is the node feature we want to color by later
+        self.color_by_feature = color_by_feature
+        # initiate the list (will be set by setup_graph())
+        self.color_by_features = None
         # name of the gxl file (without the ending)
         self.file_id = self.filename[:-4]
 
@@ -72,6 +75,8 @@ class ParsedGxlGraph:
         y_ind = self.node_feature_names.index('y')
 
         self.node_positions = [[node[x_ind], node[y_ind]] for node in self.node_features]
+        if self.color_by_feature:
+            self.color_by_features = [node[self.node_feature_names.index(self.color_by_feature)] for node in self.node_features]
 
     def get_features(self, root, mode):
         """
