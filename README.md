@@ -13,4 +13,4 @@ There are default color, thickness, and point/line types implemented, but config
 specified too. Just add your profile to the `drawing_config.py`, and change the `import`
 as well as the parameters passed to `GraphDrawer()` in `graph_plotter.py`.
 
-You can set up the conda environment by running `conda env create` in this directory.
+You can set up the conda environment by running `conda env create -f environment.yml` in this directory.
