@@ -16,7 +16,8 @@ class MplColorHelper:
 
 
 class GraphDrawer:
-    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1) -> object:
+    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1, transparency=125) -> object:
+        self.transparency = transparency
         self.graph = graph
         self.img = img
         self.scaling = scaling
@@ -27,19 +28,30 @@ class GraphDrawer:
         self.edge_style = edge_style
 
     @property
+    def img(self):
+        return self._img
+    @img.setter
+    def img(self, img):
+        # Add alpha layer
+        bgra = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+        # Set alpha layer semi-transparent with Numpy indexing, B=0, G=1, R=2, A=3
+        bgra[..., 3] = self.transparency
+        self._img = bgra
+
+    @property
     def node_style(self):
         return self._node_config
 
     @node_style.setter
     def node_style(self, node_config):
-        default = {'color': (47, 130, 224), 'radius': 12, 'thickness': -1}
+        default = {'color': (47, 130, 224, 255), 'radius': 20, 'thickness': -1}
         if node_config is None:
             if self.color_by_feature is None:
                 node_config = default
             else:
                 nb_diff_features = sorted(list(set(self.graph.color_by_features)))
                 color_mixer = MplColorHelper('Spectral', len(nb_diff_features))
-                node_config = {f: {'color': color_mixer.get_rgb(i), 'radius': 12} for i, f in enumerate(nb_diff_features)}
+                node_config = {f: {'color': color_mixer.get_rgb(i), 'radius': 20} for i, f in enumerate(nb_diff_features)}
                 node_config['thickness'] = -1
 
         self._node_config = node_config
@@ -50,7 +62,7 @@ class GraphDrawer:
 
     @edge_style.setter
     def edge_style(self, edge_config):
-        default = {'color': (30, 110, 30), 'thickness': 8, 'lineType': cv2.LINE_AA}  #
+        default = {'color': (30, 110, 30, 255), 'thickness': 10, 'lineType': cv2.LINE_AA}  #
         if edge_config is None:
             edge_config = default
         elif len(edge_config) != default:
