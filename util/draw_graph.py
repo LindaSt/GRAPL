@@ -17,6 +17,17 @@ class MplColorHelper:
 
 class GraphDrawer:
     def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1, transparency=125) -> object:
+        """
+        This class draws the graph on the image
+
+        :param graph: parsed GxlGraph
+        :param img: image that the graphs is drawn on
+        :param color_by_feature: name of the feature to color by
+        :param node_style: dictionary with the node style
+        :param edge_style: dictionary with the edge style
+        :param scaling: scaling for the x,y coordinates (in case they are not in pixels)
+        :param transparency: transparency of the original image
+        """
         self.transparency = transparency
         self.graph = graph
         self.img = img
@@ -30,6 +41,7 @@ class GraphDrawer:
     @property
     def img(self):
         return self._img
+
     @img.setter
     def img(self, img):
         # Add alpha layer
@@ -39,7 +51,7 @@ class GraphDrawer:
         self._img = bgra
 
     @property
-    def node_style(self):
+    def node_style(self) -> dict:
         return self._node_config
 
     @node_style.setter
@@ -57,7 +69,7 @@ class GraphDrawer:
         self._node_config = node_config
 
     @property
-    def edge_style(self):
+    def edge_style(self) -> dict:
         return self._edge_config
 
     @edge_style.setter
@@ -96,7 +108,7 @@ class GraphDrawer:
 
         return img
 
-    def save(self, output_path):
+    def save(self, output_path: str):
         output_file = os.path.join(output_path, f'{self.id}-vis.png')
         cv2.imwrite(output_file, self.get_image())
         print(f'Visualization saved to {output_file}')

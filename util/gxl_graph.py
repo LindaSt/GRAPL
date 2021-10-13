@@ -9,19 +9,14 @@ class InvalidFileException(Exception):
 
 
 class ParsedGxlGraph:
-    def __init__(self, path_to_gxl, color_by_feature=None) -> object:
+    def __init__(self, path_to_gxl: str, color_by_feature: str = None):
         """
         This class contains all the information encoded in a single gxl file = one graph
         Parameters
         ----------
-        subset : str
-            either 'test', 'val' or 'train'
-        class_label : int
-            class label of the graph
-        class_name: str
-            the class label as a string (useful when the int is an encoding for a name)
         path_to_gxl: str
             path to the gxl file
+        color_by_feature:
         """
         self.filepath = path_to_gxl
 
@@ -84,7 +79,8 @@ class ParsedGxlGraph:
 
         self.node_positions = [[node[x_ind], node[y_ind]] for node in self.node_features]
         if self.color_by_feature:
-            self.color_by_features = [node[self.node_feature_names.index(self.color_by_feature)] for node in self.node_features]
+            self.color_by_features = [node[self.node_feature_names.index(self.color_by_feature)] for node in
+                                      self.node_features]
 
         # edges
         self.edges = self.get_edges(root, shift=min_node_id)  # [[int, int]]
@@ -124,21 +120,22 @@ class ParsedGxlGraph:
 
         # check if we have features to generate
         if len(feature_names) > 0:
-            features = [[self.decode_feature(value) for feature in graph_element for value in feature if feature.attrib['name'] in feature_names] for graph_element in root.iter(mode)]
+            features = [[self.decode_feature(value) for feature in graph_element for value in feature if
+                         feature.attrib['name'] in feature_names] for graph_element in root.iter(mode)]
         else:
             feature_names = None
             features = []
 
         return feature_names, features
 
-    def get_node_features(self, root):
+    def get_node_features(self, root) -> tuple:
         # minimal node id -> used to shift the edge indexing to 0 (in case node enumeration does not start with 0)
-        regex = '_(\d+)$'
+        regex = r'_(\d+)$'
         node_ids = [int(re.search(regex, graph_element.attrib['id']).group(1)) for graph_element in root.iter('node')]
         feature_names, features = self.get_features(root, 'node')
         return feature_names, features, min(node_ids)
 
-    def get_edge_features(self, root):
+    def get_edge_features(self, root) -> tuple:
         feature_names, features = self.get_features(root, 'edge')
         return feature_names, features
 
@@ -198,7 +195,7 @@ class ParsedGxlGraph:
         """
         edge_list = []
 
-        regex = '_(\d+)$'
+        regex = r'_(\d+)$'
         start_points = [int(re.search(regex, edge.attrib['from']).group(1)) for edge in root.iter('edge')]
         end_points = [int(re.search(regex, edge.attrib['to']).group(1)) for edge in root.iter('edge')]
         assert len(start_points) == len(end_points)
@@ -220,7 +217,6 @@ class ParsedGxlGraph:
 
         # convert the feature value to the correct data type as specified in the gxl
         return data_types[f.tag](f.text.strip())
-
 
 # class ParsedGxlGraph:
 #     def __init__(self, path_to_gxl, color_by_feature=None) -> object:
