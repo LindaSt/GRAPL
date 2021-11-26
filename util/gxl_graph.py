@@ -9,7 +9,7 @@ class InvalidFileException(Exception):
 
 
 class ParsedGxlGraph:
-    def __init__(self, path_to_gxl: str, color_by_feature: str = None):
+    def __init__(self, path_to_gxl: str, color_by_feature: str = None) -> None:
         """
         This class contains all the information encoded in a single gxl file = one graph
         Parameters

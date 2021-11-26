@@ -16,7 +16,7 @@ class MplColorHelper:
 
 
 class GraphDrawer:
-    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1, transparency=125) -> object:
+    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1, transparency=125) -> None:
         """
         This class draws the graph on the image
 
