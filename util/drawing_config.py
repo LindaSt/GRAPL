@@ -1,6 +1,8 @@
+# in BGRA
+
 edgeless_graphs = {
-    'node_style': {'tumorbud': {'color': (38, 210, 255, 255), 'radius': 12},
-                   'lymphocyte': {'color': (99, 68, 212, 255), 'radius': 10},
+    'node_style': {'tumorbud': {'color': (255, 250, 30, 255), 'radius': 22},
+                   'lymphocyte': {'color': (175, 230, 25, 255), 'radius': 15},
                    'thickness': -1},
     'edge_style': {'color': (168, 50, 117, 255), 'thickness': 5}
 }
