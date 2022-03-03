@@ -2,7 +2,7 @@ import fire
 import cv2
 import os
 
-from util.drawing_config import bts_graphs as draw_style
+from util.drawing_config import edgeless_graphs as draw_style
 from util.gxl_graph import ParsedGxlGraph
 from util.draw_graph import GraphDrawer
 

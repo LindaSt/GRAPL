@@ -5,7 +5,7 @@ import os
 from util.gxl_graph import InvalidFileException
 
 
-def process_folder(gxl_folder, img_folder, output_path, separator='_AE', color_by_feature=None, scaling=1, transparency=125):
+def process_folder(gxl_folder, img_folder, output_path, separator='', color_by_feature=None, scaling=1, transparency=125):
     """
     This function draws a graph on an image and saves it for a whole folder.
 
@@ -25,7 +25,6 @@ def process_folder(gxl_folder, img_folder, output_path, separator='_AE', color_b
 
     for file_id in file_ids:
         try:
-            print(file_id)
             graph_plotter(gxl_files[file_id], img_files[file_id], output_path, color_by_feature=color_by_feature,
                           scaling=scaling, transparency=transparency)
         except InvalidFileException:
