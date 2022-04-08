@@ -19,7 +19,7 @@ def graph_plotter(gxl_filepath, img_filepath, output_path, color_by_feature=None
     :param transparency: transparency of the image
     """
     if not os.path.isdir(output_path):
-        os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
 
     graph = ParsedGxlGraph(gxl_filepath, color_by_feature=color_by_feature)
     img = cv2.imread(img_filepath)

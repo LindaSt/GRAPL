@@ -8,15 +8,16 @@ class MplColorHelper:
     def __init__(self, cmap_name, nb_colors):
         self.cmap_name = cmap_name
         self.cmap = cm.get_cmap(cmap_name)
-        self.norm = mpl.colors.Normalize(vmin=0, vmax=nb_colors-1)
+        self.norm = mpl.colors.Normalize(vmin=0, vmax=nb_colors - 1)
         self.scalarMap = cm.ScalarMappable(norm=self.norm, cmap=self.cmap)
 
     def get_rgb(self, val):
-        return tuple([int(c*255) for c in self.scalarMap.to_rgba(val)][:3])
+        return tuple([int(c * 255) for c in self.scalarMap.to_rgba(val)][:3])
 
 
 class GraphDrawer:
-    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1, transparency=125) -> None:
+    def __init__(self, graph, img, color_by_feature=None, node_style=None, edge_style=None, scaling=1,
+                 transparency=125) -> None:
         """
         This class draws the graph on the image
 
@@ -63,7 +64,8 @@ class GraphDrawer:
             else:
                 nb_diff_features = sorted(list(set(self.graph.color_by_features)))
                 color_mixer = MplColorHelper('Spectral', len(nb_diff_features))
-                node_config = {f: {'color': color_mixer.get_rgb(i), 'radius': 20} for i, f in enumerate(nb_diff_features)}
+                node_config = {f: {'color': color_mixer.get_rgb(i), 'radius': 20} for i, f in
+                               enumerate(nb_diff_features)}
                 node_config['thickness'] = -1
 
         self._node_config = node_config
@@ -96,13 +98,13 @@ class GraphDrawer:
                            lineType=self.edge_style['lineType'])
 
         # draw the points (according to the type, if applicable)
-        for feature, (i, point) in zip(self.graph.color_by_features, points.items()):
-            if self.color_by_feature:
+        if self.color_by_feature:
+            for feature, (i, point) in zip(self.graph.color_by_features, points.items()):
                 img = cv2.circle(img, point, radius=self.node_style[feature]['radius'],
                                  color=self.node_style[feature]['color'],
                                  thickness=self.node_style['thickness'])
-
-            else:
+        else:
+            for i, point in points.items():
                 img = cv2.circle(img, point, radius=self.node_style['radius'], color=self.node_style['color'],
                                  thickness=self.node_style['thickness'])
 

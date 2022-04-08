@@ -8,7 +8,7 @@ before the specified identifier.
 - `--gxl-filepath`: Path to the gxl file (graphs need to have at least the x and y coordinates as node features).
 - `--img-filepath`: Path to the image, that the graphs should be drawn on
 - `--output-path`: Path to where the visualisation should be saved (the output name will be {input-img-name}-vis.png).
-- `--scaling`: Optional. Factor by which the x and y coordinates should be multiplied.
+- `--scaling`: Optional. Factor by which the x and y coordinates should be multiplied. (e.g. ` --scaling 4.118660172440437` when working with images from the BTS project)
 - `--color-by-feature`: Optional. Name of the node feature, by which the nodes should be colored.
 - `--transparency`: Optional. Value of the alpha channel for the image (0-255). Default is 125.
 
